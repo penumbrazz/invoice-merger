@@ -695,8 +695,8 @@
             const pdf = await pdfjsLib.getDocument({ data: typedArray, verbosity: 0 }).promise;
             const page = await pdf.getPage(1);
 
-            // Render at 6x scale for high quality output (sharp at print resolution)
-            const viewport = page.getViewport({ scale: 6 });
+            // Render at 3x scale for high quality output
+            const viewport = page.getViewport({ scale: 3 });
             const canvas = document.createElement('canvas');
             canvas.width = viewport.width;
             canvas.height = viewport.height;
@@ -837,14 +837,11 @@
 
       // Create offscreen canvas
       const canvas = document.createElement('canvas');
-
-      // Use 3x resolution for sharp preview and print
-      const renderScale = 3;
-      canvas.width = Math.round(A4_WIDTH * renderScale);
-      canvas.height = Math.round(A4_HEIGHT * renderScale);
+      canvas.width = Math.round(A4_WIDTH * dpr);
+      canvas.height = Math.round(A4_HEIGHT * dpr);
 
       const ctx = canvas.getContext('2d');
-      ctx.scale(renderScale, renderScale);
+      ctx.scale(dpr, dpr);
 
       // High quality image downscaling
       ctx.imageSmoothingEnabled = true;
